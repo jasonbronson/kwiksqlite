@@ -10,8 +10,6 @@ import (
 
 func main() {
 
-	//read .env
-
 	// Create listener
 	server := http.Server{
 		Addr:    ":" + Cfg.Port,
@@ -33,13 +31,15 @@ func main() {
 	}()
 
 	log.Printf("HTTP api listening on: %s", Cfg.Port)
-	log.Println(Cfg.DisableSSL)
+
 	if !Cfg.DisableSSL {
+		log.Println("Enabling HTTPS")
 		if err := server.ListenAndServeTLS("", ""); err != http.ErrServerClosed {
 			// Error starting or closing listener
 			log.Printf("HTTPS api ListenAndServeTLS: %v", err)
 		}
 	} else {
+		log.Println("Disabling HTTPS")
 		if err := server.ListenAndServe(); err != http.ErrServerClosed {
 			// Error starting or closing listener
 			log.Printf("HTTP api ListenAndServe: %v", err)

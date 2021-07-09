@@ -1,11 +1,13 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"os"
 	"strconv"
 
 	"github.com/gin-contrib/cors"
+	"github.com/joho/godotenv"
 	"gorm.io/gorm"
 )
 
@@ -24,6 +26,11 @@ type Config struct {
 }
 
 func init() {
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file please create one first")
+	}
 
 	Cfg.Port = os.Getenv("PORT")
 	if Cfg.Port == "" {
