@@ -6,14 +6,16 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+
+	"github.com/jasonbronson/kwiksqlite-admin/helpers"
 )
 
 func main() {
 
 	// Create listener
 	server := http.Server{
-		Addr:    ":" + Cfg.Port,
-		Handler: NewHTTPHandler(Cfg),
+		Addr:    ":" + helpers.Cfg.Port,
+		Handler: NewHTTPHandler(helpers.Cfg),
 	}
 
 	shutdown := make(chan struct{})
@@ -30,9 +32,9 @@ func main() {
 		close(shutdown)
 	}()
 
-	log.Printf("HTTP api listening on: %s", Cfg.Port)
+	log.Printf("HTTP api listening on: %s", helpers.Cfg.Port)
 
-	if !Cfg.DisableSSL {
+	if !helpers.Cfg.DisableSSL {
 		log.Println("Enabling HTTPS")
 		if err := server.ListenAndServeTLS("", ""); err != http.ErrServerClosed {
 			// Error starting or closing listener

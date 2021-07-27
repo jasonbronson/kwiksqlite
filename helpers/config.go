@@ -1,4 +1,4 @@
-package main
+package helpers
 
 import (
 	"log"
@@ -16,13 +16,15 @@ var Cfg *Config = &Config{}
 
 // Config struct
 type Config struct {
-	Port              string
-	DisableSSL        bool
-	GormDB            *gorm.DB
-	GormDBReadReplica *gorm.DB
-	CorsOption        *cors.Config
-	HttpClient        *http.Client
-	JwtConfig         *JWTConfig
+	Port               string
+	DisableSSL         bool
+	GormDB             *gorm.DB
+	DbName             string
+	CorsOption         *cors.Config
+	HttpClient         *http.Client
+	JwtConfig          *JWTConfig
+	MaxConnections     int
+	MaxIdleConnections int
 }
 
 func init() {
@@ -33,6 +35,7 @@ func init() {
 	}
 
 	Cfg.Port = os.Getenv("PORT")
+	//default to 1234
 	if Cfg.Port == "" {
 		Cfg.Port = "1234"
 	}
@@ -45,6 +48,8 @@ func init() {
 		Audience: os.Getenv("JWT_AUDIENCE"),
 	}
 	Cfg.JwtConfig = &jwt
+	Cfg.MaxConnections = 2
+	Cfg.MaxIdleConnections = 2
 
 	//Setup cors
 	Cors()
