@@ -3,10 +3,19 @@ package repository
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/jasonbronson/kwiksqlite-admin/helpers"
 	"gorm.io/gorm"
 )
+
+func CheckDBExists(dbName string) bool {
+	if _, err := os.Stat(dbName); err == nil {
+		return true
+	} else {
+		return false
+	}
+}
 
 func GetDatabaseInfo() DBInfo {
 	//TODO missing compiled stats https://github.com/mattn/go-sqlite3/issues/886

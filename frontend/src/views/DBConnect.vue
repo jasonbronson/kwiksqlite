@@ -31,9 +31,22 @@ export default {
     ...mapMutations(["setDatabase"]),
     connectDB() {
       api.database.connectDatabase(this.dblocation).then((response) => {
-        if (response.status === 200) {
+        let success = false;
+        console.log(response);
+        if (response.status === 200 && response.data == true) {
           this.setDatabase(this.dblocation);
+          success = true;
           console.log("db connection  ", this.dblocation);
+          this.$notify({
+            title: "Success",
+            message: "Connecting to the database succeeded",
+          });
+        }
+        if (!success) {
+          this.$notify.error({
+            title: "Error",
+            message: "Connecting to the database failed",
+          });
         }
       });
     },

@@ -12,11 +12,16 @@ import (
 func ConnectDB(g *gin.Context) {
 	//helpers.Cfg.DbName = g.GetHeader("database")
 	helpers.Cfg.DbName = g.Query("db")
+	if !repository.CheckDBExists(helpers.Cfg.DbName) {
+		g.JSON(500, gin.H{"error": "database file does not exist"})
+		return
+	}
 	//log.Println(helpers.Cfg.DbName)
 	d := repository.GetDatabaseInfo()
 	success := false
+	log.Println(d.TableCount)
 	if d.TableCount > 0 {
-
+		success = true
 	}
 	g.JSON(200, success)
 }

@@ -7,7 +7,7 @@ export const database = {
         '/dbconnect?db=' + dbName
       )
     } catch (err) {
-      console.log(err)
+      return err
     }
   },
 }

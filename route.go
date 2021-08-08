@@ -21,7 +21,7 @@ func NewHTTPHandler(cfg *helpers.Config) http.Handler {
 
 	//Middleware
 	router.Use(cors.New(*cfg.CorsOption))
-	router.Use(controller.DBName())
+	//router.Use(controller.DBName())
 
 	//Frontend serve vue ui
 	router.Use(static.Serve("/", EmbedFolder(feserver, "frontend/dist")))
