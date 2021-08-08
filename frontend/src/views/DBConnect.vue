@@ -1,87 +1,39 @@
 <template>
-  <title-bar :title-stack="titleStack" />
-  <!-- <hero-bar>
-    Database Connect
-    <template #right>
-      <router-link to="/" class="button light">
-        Dashboard
-      </router-link>
-    </template>
-  </hero-bar> -->
-  <main-section>
-    <card-component title="Connect to Sqlite Database" :icon="mdiConnection">
-      <field label="Database file location">
-        <control>
-          <input
-            class="input"
-            type="text"
-            v-model="dblocation"
-            placeholder="/home/jason/database.db"
-          />
-        </control>
-      </field>
-
-      <divider />
-
-      <table>
-        <thead>
-          <tr>
-            <td>Connection Status</td>
-            <td>{{ status }}</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Table Count</td>
-            <td>{{ tableCount }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <divider />
-
-      <field grouped>
-        <control>
-          <button @click="connectDB" class="button blue">
-            Connect
-          </button>
-        </control>
-      </field>
-    </card-component>
-  </main-section>
+  <el-form ref="form" :model="form">
+    <el-form-item label="Connect to Database">
+      <el-input
+        v-model="dblocation"
+        class="dblocation"
+        placeholder="/home/user/mydatabase.sqlite"
+      ></el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="connectDB">Connect</el-button>
+      <el-button>Disconnect</el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script>
-import { mdiConnection } from "@mdi/js";
-import CardComponent from "@/components/CardComponent";
-import divider from "@/components/Divider";
-import Field from "@/components/Field";
-import Control from "@/components/Control";
-
+import api from "@/api";
+import { mapMutations } from "vuex";
 export default {
   name: "DBConnect",
-  components: {
-    CardComponent,
-    mdiConnection,
-    divider,
-    Field,
-    Control,
-  },
+  components: {},
   data() {
     return {
-      titleStack: [],
       dblocation: "",
       status: "not connected",
       tableCount: 0,
     };
   },
   methods: {
+    ...mapMutations(["setDatabase"]),
     connectDB() {
-      let dbname = this.dblocation;
-      console.log("dbname: ", dbname);
-      this.axios.post("/dbconnect?db=" + dbname).then((response) => {
+      api.database.connectDatabase(this.dblocation).then((response) => {
         if (response.status === 200) {
-          console.log("db connection  ", dbname);
+          this.setDatabase(this.dblocation);
+          console.log("db connection  ", this.dblocation);
         }
       });
     },
@@ -99,8 +51,11 @@ export default {
     },
   },
   mounted() {
-    this.titleStack = ["Admin", "Database Connect"];
-    this.checkDatabase();
+    //this.checkDatabase();
   },
 };
 </script>
+<style scoped>
+.dblocation {
+}
+</style>

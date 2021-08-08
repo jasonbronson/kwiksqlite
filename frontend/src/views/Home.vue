@@ -1,110 +1,28 @@
 <template>
-  <title-bar :title-stack="titleStack" />
-  <hero-bar>
-    Dashboard
-    <template #right>
-      <button @click="test()" class="button light">
-        Button
-      </button>
-      {{ data }}
-    </template>
-  </hero-bar>
-  <main-section>
-    <tiles>
-      <card-widget
-        class="tile"
-        color="text-green-500"
-        :icon="mdiAccountMultiple"
-        :number="512"
-        label="Clients"
-      />
-      <card-widget
-        class="tile"
-        color="text-blue-500"
-        :icon="mdiCartOutline"
-        :number="7770"
-        prefix="$"
-        label="Sales"
-      />
-      <card-widget
-        class="tile"
-        color="text-red-500"
-        :icon="mdiChartTimelineVariant"
-        :number="256"
-        suffix="%"
-        label="Performance"
-      />
-    </tiles>
-
-    <card-component
-      title="Performance"
-      :icon="mdiFinance"
-      :header-icon="mdiReload"
-      class="mb-6"
-      @header-icon-click="fillChartData"
-    >
-      <div v-if="chartData" class="chart-area">
-        <line-chart
-          ref="bigChart"
-          :chart-data="chartData"
-          :chart-options="chartOptions"
-        >
-        </line-chart>
-      </div>
-    </card-component>
-
-    <!-- <notification color="blue" :icon="mdiMonitorCellphone">
-      <b>Responsive table.</b> Collapses on mobile
-    </notification> -->
-
-    <!-- <card-component
-      :icon="mdiMonitorCellphone"
-      title="Responsive table"
-      has-table
-    >
-      <clients-table />
-    </card-component> -->
-  </main-section>
+  <el-main>
+    <el-table :data="tableData">
+      <el-table-column prop="date" label="Date" width="140"> </el-table-column>
+      <el-table-column prop="name" label="Name" width="120"> </el-table-column>
+      <el-table-column prop="address" label="Address"> </el-table-column>
+    </el-table>
+  </el-main>
 </template>
 
 <script>
 // @ is an alias to /src
 import { ref, onMounted } from "vue";
-import {
-  mdiAccountMultiple,
-  mdiCartOutline,
-  mdiChartTimelineVariant,
-  mdiFinance,
-  mdiMonitorCellphone,
-  mdiReload,
-} from "@mdi/js";
-import * as chartConfig from "@/components/Charts/chart.config";
-import LineChart from "@/components/Charts/LineChart";
-import MainSection from "@/components/MainSection";
-import TitleBar from "@/components/TitleBar";
-import HeroBar from "@/components/HeroBar";
-import Tiles from "@/components/Tiles";
-import CardWidget from "@/components/CardWidget";
-import CardComponent from "@/components/CardComponent";
-import ClientsTable from "@/components/ClientsTable";
-import Notification from "@/components/Notification";
 
 export default {
   name: "Home",
-  components: {
-    MainSection,
-    ClientsTable,
-    LineChart,
-    CardComponent,
-    CardWidget,
-    Tiles,
-    HeroBar,
-    TitleBar,
-    Notification,
-  },
+  components: {},
   data() {
+    const item = {
+      date: "2016-05-02",
+      name: "Tom",
+      address: "No. 189, Grove St, Los Angeles",
+    };
     return {
-      data: "",
+      tableData: Array(20).fill(item),
     };
   },
   methods: {
@@ -113,24 +31,5 @@ export default {
       this.axios.get("/").then((response) => (this.data = response.data));
     },
   },
-
-  // const titleStack = ref(["Admin", "Dashboard"]);
-
-  // const chartOptions = chartConfig.chartOptions;
-
-  // const chartData = ref(null);
-  // const data = ref(null);
-
-  // const fillChartData = () => {
-  //   chartData.value = chartConfig.sampleChartData();
-  // };
-
-  // const test = () => {
-  //   this.axios.get("/").then((response) => (this.data = response.data));
-  // };
-
-  // onMounted(() => {
-  //   fillChartData();
-  // });
 };
 </script>

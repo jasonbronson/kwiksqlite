@@ -1,16 +1,16 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home'
+import DBConnect from '../views/DBConnect'
 
 const routes = [
   {
     // Document title tag
     // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
-      title: 'Dashboard'
+      title: 'Database'
     },
     path: '/',
-    name: 'home',
-    component: Home
+    name: 'DBConnect',
+    component: DBConnect
   },
   {
     meta: {
@@ -23,14 +23,14 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "tables" */ '../views/Tables')
   },
-  {
-    meta: {
-      title: 'Database Connect'
-    },
-    path: '/dbconnect',
-    name: 'dbconnect',
-    component: () => import(/* webpackChunkName: "dbconnect" */ '../views/DBConnect')
-  },
+    // {
+    //   meta: {
+    //     title: 'Database Connect'
+    //   },
+    //   path: '/dbconnect',
+    //   name: 'dbconnect',
+    //   component: () => import(/* webpackChunkName: "dbconnect" */ '../views/DBConnect')
+    // },
   // {
   //   meta: {
   //     title: 'Profile'

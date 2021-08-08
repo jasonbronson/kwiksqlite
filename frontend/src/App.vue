@@ -1,115 +1,63 @@
 <template>
-  <nav-bar />
-  <aside-menu :menu="menu" />
-  <router-view />
-  <footer-bar />
+  <el-container style="border: 1px solid #eee">
+    <el-aside>
+      <sidebar :menu="menu" />
+    </el-aside>
+    <el-container>
+      <el-header>
+        <navbar />
+      </el-header>
+      <el-main>
+        <router-view />
+      </el-main>
+      <footerbar />
+    </el-container>
+  </el-container>
 </template>
 
 <script>
 // @ is an alias to /src
 import { ref } from "vue";
 import { useStore } from "vuex";
-import {
-  mdiDesktopMac,
-  mdiTable,
-  mdiConnection,
-  mdiAccountCircle,
-  mdiLock,
-  mdiViewList,
-  mdiCreditCard,
-  mdiHelpCircle,
-  mdiGithub,
-} from "@mdi/js";
-import NavBar from "@/components/NavBar";
-import AsideMenu from "@/components/AsideMenu";
-import FooterBar from "@/components/FooterBar";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
+import Footerbar from "@/components/Footerbar";
 
 export default {
   name: "Home",
   components: {
-    FooterBar,
-    AsideMenu,
-    NavBar,
+    Footerbar,
+    Sidebar,
+    Navbar,
   },
   setup() {
-    const store = useStore();
-
-    store.commit("user", {
-      name: "John Doe",
-      email: "john@example.com",
-      avatar: "https://avatars.dicebear.com/v2/gridy/John-Doe.svg",
-    });
-
-    const menu = ref(
-      [
-        "General",
-        [
-          {
-            to: "/",
-            icon: mdiDesktopMac,
-            label: "Dashboard",
-          },
-        ],
-        "Menu",
-        [
-          {
-            to: "/dbconnect",
-            label: "Connect",
-            icon: mdiConnection,
-          },
-          {
-            to: "/tables",
-            label: "Tables",
-            icon: mdiTable,
-            updateMark: true,
-          },
-          {
-            to: "/login",
-            label: "Login",
-            icon: mdiLock,
-          },
-          // {
-          //   label: "Submenus",
-          //   subLabel: "Submenus Example",
-          //   icon: mdiViewList,
-          //   menu: [
-          //     {
-          //       href: "#void",
-          //       label: "Sub-item One",
-          //     },
-          //     {
-          //       href: "#void",
-          //       label: "Sub-item Two",
-          //     },
-          //   ],
-          // },
-        ],
-      ]
-      //   'About',
-      //   [
-      //     {
-      //       href: 'https://admin-one.justboil.me',
-      //       label: 'Premium Demo',
-      //       icon: mdiCreditCard,
-      //       prevent: true
-      //     },
-      //     {
-      //       href: 'https://justboil.me/tailwind-admin-templates',
-      //       label: 'About',
-      //       icon: mdiHelpCircle
-      //     },
-      //     {
-      //       href: 'https://github.com/justboil/admin-one-vue-tailwind',
-      //       label: 'GitHub',
-      //       icon: mdiGithub
-      //     }
-      //   ]
-      // ]
-    );
-
-    return {
-      menu,
-    };
+    return {};
   },
 };
 </script>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.el-aside {
+  color: #333;
+  width: 250px;
+  background-color: #fff;
+  padding: 10px 20px;
+  overflow: hidden !important;
+}
+.el-header,
+.el-footer {
+  background-color: #c6ddfc;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
+.el-main {
+  color: #333;
+  text-align: center;
+  padding: 10px;
+}
+</style>

@@ -20,27 +20,14 @@
 
 <script>
 import { ref } from "vue";
-import { mdiTable, mdiTableBorder, mdiTableOff } from "@mdi/js";
-//import MainSection from "@/components/MainSection";
-//import Notification from "@/components/Notification";
-import DbTable from "@/components/ListTables";
-import CardComponent from "@/components/CardComponent";
-import TitleBar from "@/components/TitleBar";
-import HeroBar from "@/components/HeroBar";
 
 export default {
   name: "Tables",
-  components: {
-    HeroBar,
-    TitleBar,
-    CardComponent,
-    DbTable,
-  },
+  components: {},
   data() {
     return {
       tabledata: [],
       createtablename: "",
-      titleStack: [],
     };
   },
   methods: {

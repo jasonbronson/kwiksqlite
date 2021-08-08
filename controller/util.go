@@ -10,10 +10,13 @@ import (
 )
 
 func ConnectDB(g *gin.Context) {
+	//helpers.Cfg.DbName = g.GetHeader("database")
+	helpers.Cfg.DbName = g.Query("db")
+	//log.Println(helpers.Cfg.DbName)
 	d := repository.GetDatabaseInfo()
 	success := false
 	if d.TableCount > 0 {
-		success = true
+
 	}
 	g.JSON(200, success)
 }

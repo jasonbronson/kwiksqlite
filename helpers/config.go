@@ -60,7 +60,7 @@ func Cors() {
 	corsConfig := cors.Config{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Accept", "Authorization", "Content-Type", "X-Redirect-Host", "X-Paypal-Checkout", "X-odd-user-agent"},
+		AllowHeaders:     []string{"Accept", "Authorization", "Content-Type", "Database"},
 		AllowCredentials: true,
 	}
 
