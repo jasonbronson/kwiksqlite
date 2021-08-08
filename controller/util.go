@@ -18,12 +18,7 @@ func ConnectDB(g *gin.Context) {
 	}
 	//log.Println(helpers.Cfg.DbName)
 	d := repository.GetDatabaseInfo()
-	success := false
-	log.Println(d.TableCount)
-	if d.TableCount > 0 {
-		success = true
-	}
-	g.JSON(200, success)
+	g.JSON(200, d)
 }
 
 func GetDatabaseInfo(g *gin.Context) {

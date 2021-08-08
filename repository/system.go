@@ -23,6 +23,7 @@ func GetDatabaseInfo() DBInfo {
 	dbinfo := DBInfo{
 		TableCount: len(t),
 		DbName:     helpers.Cfg.DbName,
+		Tables:     t,
 	}
 	return dbinfo
 }
@@ -64,6 +65,7 @@ type NewTable struct {
 }
 
 type DBInfo struct {
-	TableCount int    `json:"table_count"`
-	DbName     string `json:"db_name"`
+	TableCount int          `json:"table_count"`
+	DbName     string       `json:"db_name"`
+	Tables     []ShowTables `json:"tables"`
 }

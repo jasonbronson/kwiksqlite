@@ -5,6 +5,8 @@ const store = createStore({
     /* User */
     userName: null,
     dbName: null,
+    tableCount: 0,
+    tables: [],
   },
   getters: {
     getDatabase(state) {
@@ -14,6 +16,12 @@ const store = createStore({
   mutations: {
     setDatabase (state, value) {
       state.dbName = value
+    },
+    setTableCount (state, value) {
+      state.tableCount = value
+    },
+    setTables (state, value) {
+      state.tables = value
     },
     /* User */
     user (state, payload) {

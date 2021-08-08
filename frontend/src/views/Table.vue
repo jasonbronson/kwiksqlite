@@ -1,5 +1,4 @@
 <template>
-  <title-bar :title-stack="titleStack" />
   <hero-bar>
     <div class="createdb">
       <div class="title">Create Table</div>
@@ -45,17 +44,8 @@ export default {
           }
         });
     },
-    loadData() {
-      this.axios.get("/tables").then((response) => {
-        console.log("Returned api ", response);
-        this.tabledata = response.data;
-      });
-    },
   },
-  mounted() {
-    this.titleStack = ["Admin", "Tables"];
-    this.loadData();
-  },
+  mounted() {},
 };
 </script>
 <style scoped>

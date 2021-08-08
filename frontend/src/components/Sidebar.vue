@@ -11,28 +11,20 @@
         <i class="el-icon-menu"></i>
         <span>Database</span>
       </el-menu-item>
-      <el-menu-item index="2" disabled>
+      <el-menu-item index="2" :disabled="activateMenu">
         <i class="el-icon-menu"></i>
         <span>Query</span>
       </el-menu-item>
-      <el-menu-item index="3" disabled>
+      <el-menu-item index="3" :disabled="activateMenu">
         <i class="el-icon-menu"></i>
         <span>Create</span>
       </el-menu-item>
-      <el-submenu index="4" disabled>
+      <el-submenu index="4" :disabled="activateMenu">
         <template #title><i class="el-icon-menu"></i>Tables</template>
-        <el-menu-item-group>
-          <template #title>Group 1</template>
-          <el-menu-item index="1-1">Option 1</el-menu-item>
-          <el-menu-item index="1-2">Option 2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="Group 2">
-          <el-menu-item index="1-3">Option 3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template #title>Option4</template>
-          <el-menu-item index="1-4-1">Option 4-1</el-menu-item>
-        </el-submenu>
+        <el-menu-item :index="index" v-for="(table, index) in tables">
+          <i class="el-icon-caret-right"></i>
+          <span @click="showTable(table.Name)">{{ table.Name }}</span>
+        </el-menu-item>
       </el-submenu>
     </el-menu>
   </el-aside>
@@ -48,6 +40,29 @@ export default {
   },
   data() {
     return {};
+  },
+  computed: {
+    activateMenu() {
+      console.log(this.$store.state.dbName, "***");
+      if (
+        this.$store.state.dbName &&
+        this.$store.state.dbName != null &&
+        this.$store.state.dbName !== "" &&
+        this.$store.state.dbName.length > 0
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    tables() {
+      return this.$store.state.tables;
+    },
+  },
+  methods: {
+    showTable(tableName) {
+      console.log(tableName);
+    },
   },
 };
 </script>
