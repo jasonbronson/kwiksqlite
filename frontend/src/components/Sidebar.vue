@@ -7,23 +7,35 @@
       @open="handleOpen"
       @close="handleClose"
     >
-      <el-menu-item index="1">
-        <i class="el-icon-menu"></i>
-        <span>Database</span>
-      </el-menu-item>
-      <el-menu-item index="2" :disabled="activateMenu">
-        <i class="el-icon-menu"></i>
-        <span>Query</span>
-      </el-menu-item>
-      <el-menu-item index="3" :disabled="activateMenu">
-        <i class="el-icon-menu"></i>
-        <span>Create</span>
-      </el-menu-item>
+      <router-link to="/">
+        <el-menu-item index="1">
+          <i class="el-icon-menu"></i>
+          <span>Database</span>
+        </el-menu-item>
+      </router-link>
+      <router-link to="/query">
+        <el-menu-item index="2" :disabled="activateMenu">
+          <i class="el-icon-menu"></i>
+          <span>Query</span>
+        </el-menu-item>
+      </router-link>
+      <router-link to="/create">
+        <el-menu-item index="3" :disabled="activateMenu">
+          <i class="el-icon-menu"></i>
+          <span>Create</span>
+        </el-menu-item>
+      </router-link>
       <el-submenu index="4" :disabled="activateMenu">
-        <template #title><i class="el-icon-menu"></i>Tables</template>
-        <el-menu-item :index="index" v-for="(table, index) in tables">
+        <template #title @click="tablesClick"
+          ><i class="el-icon-menu"></i>Tables</template
+        >
+        <el-menu-item
+          :index="index"
+          v-for="(table, index) in tables"
+          @click="showTable(table.Name)"
+        >
           <i class="el-icon-caret-right"></i>
-          <span @click="showTable(table.Name)">{{ table.Name }}</span>
+          <span>{{ table.Name }}</span>
         </el-menu-item>
       </el-submenu>
     </el-menu>
@@ -61,7 +73,13 @@ export default {
   },
   methods: {
     showTable(tableName) {
-      console.log(tableName);
+      console.log("Select Table:", tableName);
+      this.$store.commit("setTable", tableName);
+      this.$router.push(`/table/${tableName}`);
+    },
+    tablesClick() {
+      console.log("Tables Click");
+      this.$router.push(`/tables`);
     },
   },
 };

@@ -16,7 +16,6 @@ func ConnectDB(g *gin.Context) {
 		g.JSON(500, gin.H{"error": "database file does not exist"})
 		return
 	}
-	//log.Println(helpers.Cfg.DbName)
 	d := repository.GetDatabaseInfo()
 	g.JSON(200, d)
 }
@@ -35,7 +34,7 @@ func GetTables(g *gin.Context) {
 
 func DropTable(g *gin.Context) {
 
-	table := g.Query("table")
+	table := g.Param("tablename")
 	//check if table exists
 	if table == "" {
 		g.JSON(500, gin.H{"error": "table name is required"})
@@ -47,8 +46,8 @@ func DropTable(g *gin.Context) {
 		g.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-
-	g.JSON(200, "Success")
+	d := repository.GetDatabaseInfo()
+	g.JSON(200, d)
 }
 
 func CreateTable(g *gin.Context) {

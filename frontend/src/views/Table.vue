@@ -1,72 +1,74 @@
 <template>
-  <hero-bar>
-    <div class="createdb">
-      <div class="title">Create Table</div>
-      <input type="text" placeholder="tablename" v-model="createtablename" />
-      <button @click="createdatabase()" class="button blue medium">
-        CREATE
-      </button>
-    </div>
-
-    <template #right> </template>
-  </hero-bar>
-  <main-section>
-    <card-component title="Tables" :icon="mdiTable" has-table>
-      <db-table :tabledata="tabledata" @reload="loadData" />
-    </card-component>
-  </main-section>
+  <el-tabs type="card" @tab-click="handleClick">
+    <el-tab-pane label="Structure"><structure :sql="sql"/></el-tab-pane>
+    <el-tab-pane label="Content"><content /></el-tab-pane>
+    <el-tab-pane label="Import"><import /></el-tab-pane>
+    <el-tab-pane label="Drop"><drop /></el-tab-pane>
+  </el-tabs>
 </template>
 
 <script>
 import { ref } from "vue";
+import Structure from "@/components/Structure";
+import Content from "@/components/Content";
+import Drop from "@/components/Drop";
+import Import from "@/components/Import";
 
 export default {
-  name: "Tables",
-  components: {},
+  name: "Table",
+  components: {
+    Structure,
+    Content,
+    Import,
+    Drop,
+  },
   data() {
     return {
       tabledata: [],
-      createtablename: "",
+      sql: "",
     };
   },
-  methods: {
-    createdatabase() {
-      this.axios
-        .post("/table/create?table=" + this.createtablename)
-        .then((response) => {
-          console.log(response);
-          if (response.data === "Success") {
-            this.createtablename = "";
-            this.loadData();
-            //throw success msg
-          } else {
-            //throw error msg
-          }
-        });
+  computed: {
+    getSelectedTable() {
+      return this.$store.state.selectedTable;
     },
   },
-  mounted() {},
+  methods: {
+    handleClick(tab, event) {
+      console.log(tab, event);
+    },
+    changeTable() {
+      let tables = this.$store.state.tables;
+      tables.forEach((item) => {
+        if (item.Name == this.$store.state.selectedTable) {
+          this.sql = item.SQL;
+        }
+      });
+    },
+    // createdatabase() {
+    //   this.axios
+    //     .post("/table/create?table=" + this.createtablename)
+    //     .then((response) => {
+    //       console.log(response);
+    //       if (response.data === "Success") {
+    //         this.createtablename = "";
+    //         this.loadData();
+    //         //throw success msg
+    //       } else {
+    //         //throw error msg
+    //       }
+    //     });
+    // },
+  },
+  watch: {
+    getSelectedTable(newValue, oldValue) {
+      console.log(oldValue, newValue);
+      this.changeTable();
+    },
+  },
+  mounted() {
+    this.changeTable();
+  },
 };
 </script>
-<style scoped>
-input {
-  border: 1px solid black;
-  font-size: 75%;
-  width: 35%;
-}
-.createdb {
-  display: flex;
-  align-items: center;
-}
-.createdb .title {
-  padding-right: 10px;
-  font-size: 0.8em;
-}
-.button {
-  border-radius: 0;
-  font-size: 13px;
-  padding: 4px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-</style>
+<style scoped></style>

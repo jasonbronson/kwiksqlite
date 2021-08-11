@@ -30,8 +30,17 @@ export default {
     Sidebar,
     Navbar,
   },
-  setup() {
+  data() {
     return {};
+  },
+  computed: {},
+  mounted() {
+    //If we are missing the db then push back to connect db
+    this.polling = setInterval(() => {
+      if (this.$store.state.dbName == null) {
+        this.$router.push("/");
+      }
+    }, 3000);
   },
 };
 </script>

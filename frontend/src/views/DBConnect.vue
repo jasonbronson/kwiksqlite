@@ -5,11 +5,16 @@
         v-model="dblocation"
         class="dblocation"
         placeholder="/home/user/mydatabase.sqlite"
+        :disabled="isDBConnected"
       ></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="connectDB">Connect</el-button>
-      <el-button>Disconnect</el-button>
+      <el-button type="primary" @click="connectDB" :disabled="isDBConnected"
+        >Connect</el-button
+      >
+      <el-button @click="disconnectDB" :disabled="isDBDisconnected"
+        >Disconnect</el-button
+      >
     </el-form-item>
   </el-form>
 </template>
@@ -24,11 +29,27 @@ export default {
     return {
       dblocation: "",
       status: "not connected",
-      tableCount: 0,
     };
+  },
+  computed: {
+    isDBDisconnected() {
+      return this.$store.getters.getTableCount == 0;
+    },
+    isDBConnected() {
+      return this.$store.getters.getTableCount > 0;
+    },
   },
   methods: {
     ...mapMutations(["setDatabase", "setTables", "setTableCount"]),
+    disconnectDB() {
+      this.setDatabase(null);
+      this.setTables(null);
+      this.setTableCount(0);
+      this.$notify({
+        title: "Success",
+        message: "Disconnecting the database succeeded",
+      });
+    },
     connectDB() {
       api.database.connectDatabase(this.dblocation).then((response) => {
         let success = false;
@@ -65,7 +86,7 @@ export default {
     // },
   },
   mounted() {
-    //this.checkDatabase();
+    this.dblocation = this.$store.getters.getDatabase;
   },
 };
 </script>
