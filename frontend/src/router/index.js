@@ -41,7 +41,7 @@ const routes = [
     path: "/query",
     name: "Query",
     component: () =>
-      import(/* webpackChunkName: "dbconnect" */ "../views/DBConnect"),
+      import(/* webpackChunkName: "query" */ "../components/Query"),
   },
   {
     meta: {
@@ -50,7 +50,7 @@ const routes = [
     path: "/create",
     name: "Create",
     component: () =>
-      import(/* webpackChunkName: "dbconnect" */ "../views/DBConnect"),
+      import(/* webpackChunkName: "create" */ "../components/Create"),
   },
   {
     meta: {

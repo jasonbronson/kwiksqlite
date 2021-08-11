@@ -51,9 +51,14 @@ func DropTable(g *gin.Context) {
 }
 
 func CreateTable(g *gin.Context) {
-	table := g.Query("table")
+	table := g.Param("tablename")
+	if table == "" {
+		g.JSON(500, gin.H{"error": "table name is required"})
+		return
+	}
 	helpers.DB().Table(table).AutoMigrate(&NewTable{})
-	g.JSON(200, "Success")
+	d := repository.GetDatabaseInfo()
+	g.JSON(200, d)
 }
 
 type ShowTables struct {

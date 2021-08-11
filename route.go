@@ -33,7 +33,7 @@ func NewHTTPHandler(cfg *helpers.Config) http.Handler {
 	api := router.Group("/api")
 	{
 		api.GET("/tables", controller.GetTables)
-		api.POST("/table/create", controller.CreateTable)
+		api.POST("/table/create/:tablename", controller.CreateTable)
 		api.DELETE("/table/drop/:tablename", controller.DropTable)
 		api.GET("/databaseinfo", controller.GetDatabaseInfo)
 		api.POST("/dbconnect", controller.ConnectDB)

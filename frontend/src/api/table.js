@@ -8,4 +8,11 @@ export const table = {
       return err;
     }
   },
+  async createTable(table) {
+    try {
+      return await axios.post("/table/create/" + table);
+    } catch (err) {
+      return err;
+    }
+  },
 };
