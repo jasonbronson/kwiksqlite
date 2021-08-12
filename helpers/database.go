@@ -11,7 +11,8 @@ import (
 func DB() *gorm.DB {
 
 	if Cfg.DbName == "" {
-		log.Fatal("Database name not set")
+		log.Println("Database name not set")
+		return nil
 	}
 
 	if Cfg.GormDB == nil && Cfg.DbName != "" {

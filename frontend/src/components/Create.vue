@@ -38,11 +38,13 @@ export default {
         if (response.status === 200) {
           this.$store.commit("setTables", response.data.tables);
           this.$store.commit("setTableCount", response.data.table_count);
+          this.$store.commit("setTable", this.tableName);
           success = true;
           this.$notify({
             title: "Success",
             message: "Create table succeeded",
           });
+          this.$router.push("/table/" + this.tableName);
         }
         if (!success) {
           this.$notify.error({

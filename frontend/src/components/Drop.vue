@@ -34,6 +34,7 @@ export default {
             title: "Success",
             message: "Dropping table succeeded",
           });
+          this.$router.push("/create");
         }
         if (!success) {
           this.$notify.error({

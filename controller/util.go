@@ -26,6 +26,29 @@ func GetDatabaseInfo(g *gin.Context) {
 	g.JSON(200, d)
 }
 
+func CustomQuery(g *gin.Context) {
+	
+	json := struct {
+		Query string `json:"query"`
+	}{
+		"",
+	}
+	if err := g.ShouldBindJSON(&json); err != nil {
+		g.JSON(500, gin.H{"error": "query is required"})
+		return
+	}
+
+	log.Println(json.Query)
+	 
+	var result interface{}
+	err := helpers.DB().Raw(json.Query).Scan(&result).Error
+	if err != nil {
+		g.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	g.JSON(200, result)
+}
+
 func GetTables(g *gin.Context) {
 	var result []ShowTables
 	helpers.DB().Raw("SELECT name, sql FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%' order by name").Scan(&result)

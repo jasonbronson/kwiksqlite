@@ -2,7 +2,7 @@
   <el-aside class="sidebar">
     <p>KwikSQLite</p>
     <el-menu
-      default-active="1"
+      :default-active="activeMenuItem"
       class="el-menu"
       @open="handleOpen"
       @close="handleClose"
@@ -26,11 +26,9 @@
         </el-menu-item>
       </router-link>
       <el-submenu index="4" :disabled="activateMenu">
-        <template #title @click="tablesClick"
-          ><i class="el-icon-menu"></i>Tables</template
-        >
+        <template #title><i class="el-icon-menu"></i>Tables</template>
         <el-menu-item
-          :index="index"
+          :index="index + 1"
           v-for="(table, index) in tables"
           @click="showTable(table.Name)"
         >
@@ -51,7 +49,9 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      activeMenuItem: "1",
+    };
   },
   computed: {
     activateMenu() {
@@ -68,7 +68,15 @@ export default {
       }
     },
     tables() {
-      return this.$store.state.tables;
+      let tables = this.$store.state.tables;
+      if (tables) {
+        tables.forEach((table, index) => {
+          if (table.Name == this.$store.state.selectedTable) {
+            this.activeMenuItem = index + 1;
+          }
+        });
+      }
+      return tables;
     },
   },
   methods: {

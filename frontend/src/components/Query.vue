@@ -1,13 +1,14 @@
 <template>
   <el-form ref="form" label-width="120px">
-    <el-form-item label="Drop Table">
-      <el-col :span="11"
-        ><b>{{ selectedTable }}</b></el-col
-      >
+    <el-form-item label="Custom Query">
+      <el-col :span="11"></el-col>
+    </el-form-item>
+    <el-form-item label="SQL">
+      <el-input type="textarea" v-model="query"></el-input>
     </el-form-item>
     <el-form-item>
       <el-col :span="11">
-        <el-button type="primary" @click="dropTable">QUERY</el-button>
+        <el-button type="primary" @click="customQuery">QUERY</el-button>
       </el-col>
     </el-form-item>
   </el-form>
@@ -17,28 +18,24 @@ import Vue from "vue";
 import api from "@/api";
 
 export default {
-  name: "Drop",
+  name: "Query",
   data() {
-    return {};
+    return {
+      query: "",
+    };
   },
   methods: {
-    dropTable() {
-      api.table.dropTable(this.selectedTable).then((response) => {
+    customQuery() {
+      api.query.customQuery(this.query).then((response) => {
         let success = false;
         if (response.status === 200) {
-          this.$store.commit("setTables", response.data.tables);
-          this.$store.commit("setTableCount", response.data.table_count);
           success = true;
-
-          this.$notify({
-            title: "Success",
-            message: "Dropping table succeeded",
-          });
         }
         if (!success) {
+          console.log(response, "*");
           this.$notify.error({
-            title: "Error",
-            message: "Dropping table failed",
+            title: "Query failed",
+            message: "Error:" + response.error,
           });
         }
       });
