@@ -1,6 +1,8 @@
 <template>
   <el-tabs type="card" @tab-click="handleClick">
-    <el-tab-pane label="Structure"><structure :sql="sql"/></el-tab-pane>
+    <el-tab-pane label="Structure"
+      ><structure :columns="columns" :sql="sql"
+    /></el-tab-pane>
     <el-tab-pane label="Content"><content /></el-tab-pane>
     <el-tab-pane label="Import"><import /></el-tab-pane>
     <el-tab-pane label="Drop"><drop /></el-tab-pane>
@@ -13,6 +15,7 @@ import Structure from "@/components/Structure";
 import Content from "@/components/Content";
 import Drop from "@/components/Drop";
 import Import from "@/components/Import";
+import api from "@/api";
 
 export default {
   name: "Table",
@@ -26,6 +29,7 @@ export default {
     return {
       tabledata: [],
       sql: "",
+      columns: [],
     };
   },
   computed: {
@@ -44,6 +48,16 @@ export default {
           this.sql = item.SQL;
         }
       });
+      api.structure
+        .getColumns(this.$store.state.selectedTable)
+        .then((response) => {
+          if (response.status == 200) {
+            this.columns = response.data;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     // createdatabase() {
     //   this.axios

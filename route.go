@@ -34,8 +34,12 @@ func NewHTTPHandler(cfg *helpers.Config) http.Handler {
 	{
 		api.GET("/tables", controller.GetTables)
 		api.POST("/query", controller.CustomQuery)
-		api.POST("/table/create/:tablename", controller.CreateTable)
-		api.DELETE("/table/drop/:tablename", controller.DropTable)
+		table := api.Group("/table")
+		{
+			table.POST("/create/:tablename", controller.CreateTable)
+			table.DELETE("/drop/:tablename", controller.DropTable)
+			table.GET("/columns/:tablename", controller.GetColumns)	
+		}
 		api.GET("/databaseinfo", controller.GetDatabaseInfo)
 		api.POST("/dbconnect", controller.ConnectDB)
 		api.GET("/alive", func(g *gin.Context) {

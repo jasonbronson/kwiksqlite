@@ -12,6 +12,9 @@ export const table = {
     try {
       return await axios.post("/table/create/" + table);
     } catch (err) {
+      if (err.response) {
+        return err.response.data;
+      }
       return err;
     }
   },

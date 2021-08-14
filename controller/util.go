@@ -2,6 +2,7 @@ package controller
 
 import (
 	"log"
+	"regexp"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jasonbronson/kwiksqlite-admin/helpers"
@@ -73,10 +74,17 @@ func DropTable(g *gin.Context) {
 	g.JSON(200, d)
 }
 
+func GetColumns(g *gin.Context) {
+	table := g.Param("tablename")
+	c := repository.GetColumns(table)
+	g.JSON(200, c)
+}
+
 func CreateTable(g *gin.Context) {
 	table := g.Param("tablename")
-	if table == "" {
-		g.JSON(500, gin.H{"error": "table name is required"})
+	match, _ := regexp.MatchString("[a-zA-Z_]([0-9]?)", table)
+	if !match {
+		g.JSON(500, gin.H{"error": "table name does not match table name conventions"})
 		return
 	}
 	helpers.DB().Table(table).AutoMigrate(&NewTable{})
