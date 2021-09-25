@@ -1,21 +1,22 @@
 <template>
-  <el-descriptions title="User Info">
-    <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
-    <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
-    <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
-    <el-descriptions-item label="Remarks">
-      <el-tag size="small">School</el-tag>
-    </el-descriptions-item>
-    <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
-      Province</el-descriptions-item
-    >
-  </el-descriptions>
+    <p>Table Content</p>
+    <el-table :data="tablecontent" stripe style="width: 100%">
+      <el-table-column prop="created_at" label="Date" width="180"> </el-table-column>
+      <el-table-column prop="id" label="Name" width="180"> </el-table-column>
+      <el-table-column prop="address" label="Address"> </el-table-column>
+    </el-table>
+  
 </template>
 <script>
 import Vue from "vue";
 
 export default {
-  name: "Structure",
+  name: "Content",
+  props: {
+    tablecontent: Object,
+  },
+  mounted(){
+    this.$store.commit('setLogger', JSON.stringify(this.tablecontent))
+  }
 };
 </script>

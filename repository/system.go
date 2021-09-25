@@ -48,6 +48,17 @@ func GetTables() []ShowTables {
 	return result
 }
 
+func GetTableContent(tableName string) (map[string]interface{}, error) {
+	result := map[string]interface{}{}
+	err := helpers.DB().Table(tableName).Find(&result).Error
+	if err != nil {
+		log.Println(err)
+		return nil, fmt.Errorf("get table content error: %v", err)
+	}
+	log.Println(result)
+	return result, nil
+}
+
 func DropTable(tableName string) error {
 	//check if table exists
 	if tableName == "" {
@@ -70,7 +81,7 @@ func CreateTable(tableName string) error {
 }
 
 type ShowColumns struct {
-	Name string
+	Name       string
 	ColumnName string
 	ColumnType string
 }
@@ -85,8 +96,8 @@ type NewTable struct {
 }
 
 type DBInfo struct {
-	TableCount int          `json:"table_count"`
-	DbName     string       `json:"db_name"`
-	Tables     []ShowTables `json:"tables"`
+	TableCount int           `json:"table_count"`
+	DbName     string        `json:"db_name"`
+	Tables     []ShowTables  `json:"tables"`
 	Columns    []ShowColumns `json:"columns"`
 }

@@ -4,11 +4,15 @@
       <el-col :span="11"></el-col>
     </el-form-item>
     <el-form-item label="SQL">
-      <el-input type="textarea" v-model="query"></el-input>
+      <el-input
+        type="textarea"
+        v-model="query"
+        placeholder="Select * from tableName"
+      ></el-input>
     </el-form-item>
     <el-form-item>
       <el-col :span="11">
-        <el-button type="primary" @click="customQuery">QUERY</el-button>
+        <el-button type="primary" @click="customQuery">Execute</el-button>
       </el-col>
     </el-form-item>
   </el-form>
@@ -30,6 +34,10 @@ export default {
         let success = false;
         if (response.status === 200) {
           success = true;
+          this.$notify.success({
+            title: "Query Executed",
+            message: "query was successfully run"
+          })
         }
         if (!success) {
           console.log(response, "*");

@@ -28,7 +28,7 @@ func GetDatabaseInfo(g *gin.Context) {
 }
 
 func CustomQuery(g *gin.Context) {
-	
+
 	json := struct {
 		Query string `json:"query"`
 	}{
@@ -40,7 +40,7 @@ func CustomQuery(g *gin.Context) {
 	}
 
 	log.Println(json.Query)
-	 
+
 	var result interface{}
 	err := helpers.DB().Raw(json.Query).Scan(&result).Error
 	if err != nil {
@@ -72,6 +72,17 @@ func DropTable(g *gin.Context) {
 	}
 	d := repository.GetDatabaseInfo()
 	g.JSON(200, d)
+}
+
+func GetTableContent(g *gin.Context) {
+	table := g.Param("tablename")
+	c, err := repository.GetTableContent(table)
+	if err != nil {
+		g.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	log.Println(c)
+	g.JSON(200, c)
 }
 
 func GetColumns(g *gin.Context) {

@@ -36,6 +36,7 @@ func NewHTTPHandler(cfg *helpers.Config) http.Handler {
 		api.POST("/query", controller.CustomQuery)
 		table := api.Group("/table")
 		{
+			table.GET("/content/:tablename", controller.GetTableContent)	
 			table.POST("/create/:tablename", controller.CreateTable)
 			table.DELETE("/drop/:tablename", controller.DropTable)
 			table.GET("/columns/:tablename", controller.GetColumns)	

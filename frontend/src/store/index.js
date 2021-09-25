@@ -8,6 +8,7 @@ const store = createStore({
     tableCount: 0,
     tables: [],
     selectedTable: null,
+    logger: "loaded",
   },
   getters: {
     getDatabase(state) {
@@ -18,6 +19,9 @@ const store = createStore({
     },
   },
   mutations: {
+    setLogger(state, value){
+      state.logger = value
+    },
     setDatabase(state, value) {
       state.dbName = value;
     },

@@ -10,6 +10,7 @@
       <el-main>
         <router-view />
       </el-main>
+      <div><textarea v-model="logger" name="" id="" cols="120" rows="10">Nothing</textarea></div>
       <footerbar />
     </el-container>
   </el-container>
@@ -33,7 +34,11 @@ export default {
   data() {
     return {};
   },
-  computed: {},
+  computed: {
+    logger(){
+      return this.$store.state.logger
+    }
+  },
   mounted() {
     //If we are missing the db then push back to connect db
     this.polling = setInterval(() => {

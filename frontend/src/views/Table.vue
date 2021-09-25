@@ -3,7 +3,9 @@
     <el-tab-pane label="Structure"
       ><structure :columns="columns" :sql="sql"
     /></el-tab-pane>
-    <el-tab-pane label="Content"><content /></el-tab-pane>
+    <el-tab-pane label="Content"
+      ><content :tablecontent="tablecontent"
+    /></el-tab-pane>
     <el-tab-pane label="Import"><import /></el-tab-pane>
     <el-tab-pane label="Drop"><drop /></el-tab-pane>
   </el-tabs>
@@ -30,6 +32,9 @@ export default {
       tabledata: [],
       sql: "",
       columns: [],
+      tablecontent: [],
+      pageOffset: 0,
+      pageLimit: 10,
     };
   },
   computed: {
@@ -39,7 +44,21 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      console.log(event.target.outerText);
+      if (event.target.outerText === "Content") {
+        this.loadContent();
+      }
+    },
+    loadContent() {
+      api.table
+        .getTableContent(this.getSelectedTable, this.pageOffset, this.pageLimit)
+        .then((res) => {
+          console.log(res);
+          this.tablecontent = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     changeTable() {
       let tables = this.$store.state.tables;

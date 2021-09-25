@@ -18,4 +18,18 @@ export const table = {
       return err;
     }
   },
+  async getTableContent(table, pageOffset, pageLimit) {
+    try {
+      return await axios.get(
+        "/table/content/" +
+          table +
+          `?pageOffset=${pageOffset}&pageLimit=${pageLimit}`
+      );
+    } catch (err) {
+      if (err.response) {
+        return err.response.data;
+      }
+      return err;
+    }
+  },
 };

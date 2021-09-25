@@ -7,6 +7,8 @@ import ElementPlus from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
 import './css/main.css'
 import { instance as axios } from './plugins/axios'
+import Bugsnag from '@bugsnag/js'
+import BugsnagPluginVue from '@bugsnag/plugin-vue'
 
 /* Default title tag */
 const defaultDocumentTitle = 'KwikSqlite Admin'
@@ -21,7 +23,13 @@ router.afterEach(to => {
   }
 })
 
-const app = createApp(App).use(store).use(router).use(VueAxios, axios).use(ElementPlus).mount('#app')
-// app.config.globalProperties.$axios 
-// app.config.globalProperties.$localstorage
+Bugsnag.start({
+  apiKey: 'YOUR_API_KEY',
+  endpoints: {
+    notify: 'https://041d793004df4a0c5bad4a3e372066ce.m.pipedream.net',
+    sessions: 'https://041d793004df4a0c5bad4a3e372066ce.m.pipedream.net'
+  }
+})
 
+const bugsnagVue = Bugsnag.getPlugin('vue')
+const app = createApp(App).use(bugsnagVue).use(store).use(router).use(VueAxios, axios).use(ElementPlus).mount('#app')
